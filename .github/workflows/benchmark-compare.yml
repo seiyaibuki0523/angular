@@ -11,12 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.issue.pull_request && startsWith(github.event.comment.body, '/benchmark-compare ')}}
     steps:
-      #- uses: TheModdingInquisition/actions-team-membership@057d91bb80f2976a1bc6dfab5b4ae1da9aebbd89 # v1.0
-        #with:
-          #team: 'team'
-         # organization: angular
-          #token: ${{secrets.BENCHMARK_COMPARE_MEMBERSHIP_GITHUB_TOKEN}}
-         # exit: true
+      # - uses: TheModdingInquisition/actions-team-membership@057d91bb80f2976a1bc6dfab5b4ae1da9aebbd89 # v1.0
+      #   with:
+      #     team: 'team'
+      #     organization: angular
+      #     token: ${{secrets.BENCHMARK_COMPARE_MEMBERSHIP_GITHUB_TOKEN}}
+      #     exit: true
 
       # Indicate that the benchmark command was received.
       - uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5
@@ -36,22 +36,32 @@ jobs:
           # that the action was triggered by a team member.
           ref: ${{steps.comment-branch.outputs.head_ref}}
 
-      - run: pnpm install --frozen-lockfile
+      # - run: pnpm install --frozen-lockfile
+      - run: npm install
 
-      - uses: angular/dev-infra/github-actions/bazel/configure-remote@ac95c7dca5916d639aec6c090acb60f62ce324ad
-        with:
-          bazelrc: ./.bazelrc.user
+      # - uses: angular/dev-infra/github-actions/bazel/configure-remote@ac95c7dca5916d639aec6c090acb60f62ce324ad
+      #   with:
+      #     bazelrc: ./.bazelrc.user
 
       - name: Preparing benchmark for GitHub action
         id: info
         env:
           # Untrusted input used in an executable code, must be wrapped as an env var to prevent injections
           COMMENT_BODY: ${{ github.event.comment.body }}
-        run: pnpm benchmarks prepare-for-github-action "$COMMENT_BODY"
+        # run: pnpm benchmarks prepare-for-github-action "$COMMENT_BODY"
+        run: |
+          echo "benchmarkTarget=FakeTarget" >> $GITHUB_OUTPUT
+          echo "compareSha=FakeSha123" >> $GITHUB_OUTPUT
+          echo "prHeadSha=FakeSha456" >> $GITHUB_OUTPUT
 
-      - run: pnpm benchmarks run-compare ${{steps.info.outputs.compareSha}} ${{steps.info.outputs.benchmarkTarget}}
-        id: benchmark
+      # - run: pnpm benchmarks run-compare ${{steps.info.outputs.compareSha}} ${{steps.info.outputs.benchmarkTarget}}
+      #   id: benchmark
+      #   name: Running benchmark
+      - id: benchmark
         name: Running benchmark
+        run: |
+          echo "workingStageResultsText=Hacked by PoC" >> $GITHUB_OUTPUT
+          echo "comparisonResultsText=Hacked by PoC" >> $GITHUB_OUTPUT
 
       - uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5
         with:
