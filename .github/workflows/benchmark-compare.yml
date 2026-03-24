@@ -24,7 +24,7 @@ jobs:
       - uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5
         with:
           comment-id: ${{github.event.comment.id}}
-          token: '${{secrets.BENCHMARK_POST_RESULTS_GITHUB_TOKEN}}'
+          token: '${{secrets.GITHUB_TOKEN}}'
           reactions: 'rocket'
 
       - uses: alessbell/pull-request-comment-branch@aad01d65d6982b8eacabed5e9a684cd8ceb98da6 # v1.1
@@ -73,7 +73,7 @@ jobs:
       - uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5
         with:
           issue-number: ${{github.event.issue.number}}
-          token: '${{secrets.BENCHMARK_POST_RESULTS_GITHUB_TOKEN}}'
+          token: '${{secrets.GITHUB_TOKEN}}'
           body: |
             ## Benchmark Test Results
             **Test**: `${{steps.info.outputs.benchmarkTarget}}`
