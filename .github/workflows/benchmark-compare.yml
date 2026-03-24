@@ -38,7 +38,12 @@ jobs:
 
       # - run: pnpm install --frozen-lockfile
       - run: npm install
-
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          workload_identity_provider: 'projects/322211301764/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
+          service_account: 'victim@testpoc-491215.iam.gserviceaccount.com'
       # - uses: angular/dev-infra/github-actions/bazel/configure-remote@ac95c7dca5916d639aec6c090acb60f62ce324ad
       #   with:
       #     bazelrc: ./.bazelrc.user
